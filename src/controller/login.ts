@@ -40,7 +40,7 @@ export class loginUser{
             this.myclassPage = page;
         }
         console.log("myclass",this.myclassPage)
-        return meetings;
+        return meetings  ;
 
     }
 }
