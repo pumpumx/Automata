@@ -1,7 +1,7 @@
 import { loginUser } from "./controller/login.ts";
 import { meetActions } from "./controller/meetActions.ts";
 import readline from "readline"
-import fs from "fs"
+import { promises as fs } from "fs";
 import { fileURLToPath } from "url";
 import {dirname} from "path";
 import path from "path";
@@ -25,23 +25,23 @@ const __dirname = dirname(__filename)
         username = args[0];
         password = args[1];
         binary = args[2];
-        fs.writeFile('./credentials.txt' ,`${username},${password},${binary}`, (err)=>{
-            if(err) {
-                console.log("Failed to create credentials.txt file")
-            }
-            console.log("credentials file created successfully");
-        })
+        const fileWrite = await fs.writeFile('./credentials.txt' ,`${username},${password},${binary}`)
     }
     else{
         console.log("Checking for data from credentials file")
         console.log(__dirname)
-        fs.readFile(path.join(__dirname,"../src/credentials.txt"),'utf-8',(err , data)=>{
-            if(err){
-                console.log("error reading file" , err)
-            }
-            console.log("data: ",data)
-        })
-        console.log("Usage: node index.ts lpu-Username lpu-Password chromeBinaryPath")
+        const data = await fs.readFile(path.join(__dirname,"../src/credentials.txt"),'utf-8')
+        if(data){
+            console.log("data exists: ",data);
+            const newData = data.split(',')
+            username = newData[0];
+            password = newData[1];
+            binary = newData[2];
+        }
+        else{
+            console.log("Usage: node index.ts lpu-Username lpu-Password chromeBinaryPath")
+        }
+        
     }
     const loginObj  = new loginUser(username  , password , binary)
 
