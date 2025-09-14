@@ -1,5 +1,5 @@
-import { loginUser } from "./controller/login.ts";
-import { meetActions } from "./controller/meetActions.ts";
+import { loginUser } from "./controller/login.js";
+import { meetActions } from "./controller/meetActions.js";
 import readline from "readline"
 import { promises as fs } from "fs";
 import { fileURLToPath } from "url";
@@ -18,7 +18,7 @@ const __dirname = dirname(__filename)
 
     let username:string | undefined 
     let password:string | undefined
-    let binary:string | undefined
+    let binary:string | undefined   
     const args = process.argv.slice(2);
 
     if(args.length > 0 &&  args.length == 3){
