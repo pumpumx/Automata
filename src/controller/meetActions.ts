@@ -35,6 +35,7 @@ export class meetActions { //One thing i need to do is , in my class time is som
     timeSynchronizer(time: number): string { //It will convert the time according to the 24 hrs format
         console.log("time at time Synchronizer: ", time)
         if (time >= 0 && time < 10) {
+            console.log("Time is being changed" ,time + 12);
             return (time + 12).toString();
         }
         return time.toString()//Damn pretty easy , i dont think i even need a function but its fine , it just looks cool enough
