@@ -59,6 +59,8 @@ Automate your LPU online classes with ease.
                 0 11 * * * DISPLAY=:1 /usr/bin/node /path/to/Proxy-Bot/dist/index.js >> /home/hostUsername/cronLog.log 2>&1 //Don't worry the later part is just logging our any errors
             Change the cronjobs according to your own time table!!
             Tip -> Suppose if your class is at 11:00AM , then always schedule your cronjob of 11:07 or 11:10 , don't worry the script will work anyways , and slight modificaton by professrors will be adjusted accordinglly.
+            07 11,14,15 * * 1-6 DISPLAY=:1 /usr/bin/node /path/to/Proxy-Bot/dist/index.js >> /home/hostUsername/cronLog.log 2>&1 
+                Just add the above cron job : this will run your script at 11AM,2PM,3PM at 07 minutes of each hour from 1-6 i.e mon to friday , disclamier -> learn or most probably master crontab and how to use it in order to get the full out of it.
 
 ---
 
