@@ -1,3 +1,4 @@
+import { execSync } from "child_process";
 export class meetActions {
     constructor(meetings) {
         if (meetings == null) {
@@ -23,6 +24,7 @@ export class meetActions {
     timeSynchronizer(time) {
         console.log("time at time Synchronizer: ", time);
         if (time >= 0 && time < 10) {
+            console.log("Time is being changed", time + 12);
             return (time + 12).toString();
         }
         return time.toString(); //Damn pretty easy , i dont think i even need a function but its fine , it just looks cool enough
@@ -55,9 +57,11 @@ export class meetActions {
         const meetStatus = await myClassPage.$eval('#meetingStatusPlaceholder', el => el.textContent?.trim());
         if (meetStatus == "Not started yet") {
             console.log("Meeting is yet to be started");
-            process.exit(1);
+            execSync("sleep 10");
+            process.exit(0);
         }
         else if (meetStatus == "Started") { //This is the part where the meeting would be started , need to do it tomorrow asap!! also need to fix the time thing .
+            await myClassPage.waitForSelector('a[role="button"]');
             await myClassPage.locator('a[role="button"]').click();
             // await myClassPage.waitForSelector('button[aria-label="Microphone"]', { timeout: 10000000 }) //Timeout has been increased as it takes time to load the meet 
             const buttonVal = await myClassPage.$$eval(`button`, el => el.map((textContent) => textContent.innerText));

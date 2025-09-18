@@ -8,8 +8,7 @@
     "esModuleInterop": true,      
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "allowImportingTsExtensions": true,
-    "noEmit": true
-
-    }
+    "allowImportingTsExtensions": false,
+    },
+     "include": ["src/**/*"]
 }

@@ -1,4 +1,5 @@
 
+import { execSync } from "child_process";
 import { Page } from "puppeteer";
 
 export class meetActions { //One thing i need to do is , in my class time is something like 1-12 , i need to get currTime in regular format 
@@ -75,9 +76,11 @@ export class meetActions { //One thing i need to do is , in my class time is som
 
         if (meetStatus == "Not started yet") {
             console.log("Meeting is yet to be started");
-            process.exit(1);
+            execSync("sleep 10")
+            process.exit(0);
         }
         else if (meetStatus == "Started") { //This is the part where the meeting would be started , need to do it tomorrow asap!! also need to fix the time thing .
+            await myClassPage.waitForSelector('a[role="button"]');
             await myClassPage.locator('a[role="button"]').click()
 
             // await myClassPage.waitForSelector('button[aria-label="Microphone"]', { timeout: 10000000 }) //Timeout has been increased as it takes time to load the meet 

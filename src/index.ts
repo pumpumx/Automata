@@ -1,5 +1,5 @@
-import { loginUser } from "./controller/login.ts";
-import { meetActions } from "./controller/meetActions.ts";
+import { loginUser } from "./controller/login";
+import { meetActions } from "./controller/meetActions";
 import readline from "readline"
 import { promises as fs } from "fs";
 import { fileURLToPath } from "url";

@@ -6,7 +6,6 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import path from "path";
 const __filename = fileURLToPath(import.meta.url);
-console.log(__filename);
 const __dirname = dirname(__filename);
 async function main() {
     const rl = readline.createInterface({
