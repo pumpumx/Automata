@@ -37,30 +37,30 @@ Automate your LPU online classes with ease.
 
 ## Setting up credentials
     script usage : node dist/index.js Lpu-userId Lpu-Password ChromeBinaryPath , This will create a credentials.txt file
-            file data -> lpu-userId,Lpu-Password,BinaryExecutablePath 
-            You may even create this manually , if you are facing few errors!
-        ChromeBinaryPath -> It is the path where your chrome binary is located!!! check your /usr/bin 
-        there'll be something like -> /usr/bin/chrome || /usr/bin/google-chrome-stable 
+    File data -> lpu-userId,Lpu-Password,BinaryExecutablePath 
+    You may even create this manually , if you are facing few errors!
+    ChromeBinaryPath -> It is the path where your chrome binary is located!!! check your /usr/bin 
+    there'll be something like -> /usr/bin/chrome || /usr/bin/google-chrome-stable 
 
 ---
 
 ## ⏰ Automating with Cron
     The most important part , to automate the script you need to be familiar with cronJobs , please do your homework with cronjobs if you are not familiar with it
-        0 11 * * * /usr/bin/node /path/to/Proxy-Bot/dist/index.js >> /home/username/cronLog.log 2>&1 //This will run the script everyday at exactly 11 AM
-            Recommendations Important: 
-                If you are using linux , then you need to set the DISPLAY environmental variable , as the cronjobs don't have the authority to run a gui display ,
-                 in order to fix this , check your DISPLAY enviromental variable with : ~echo $DISPLAY` ,
-                    You'll get a value either 0 or 1 or whatever it is!!  
-                Then you need to add the authorization for the current user to gui via cronjobs
-                xhost +SI:localuser:`yourUsername`
+    0 11 * * * /usr/bin/node /path/to/Proxy-Bot/dist/index.js >> /home/username/cronLog.log 2>&1 //This will run the script everyday at exactly 11 AM
+        Recommendations Important: 
+            If you are using linux , then you need to set the DISPLAY environmental variable , as the cronjobs don't have the authority to run a gui display ,
+            in order to fix this , check your DISPLAY enviromental variable with : ~echo $DISPLAY` ,
+            You'll get a value either 0 or 1 or whatever it is!!  
+            Then you need to add the authorization for the current user to gui via cronjobs
+            xhost +SI:localuser:`yourUsername`
 
-                check with the following command -> xhost
+        check with the following command -> xhost
             So the cron command would look something like this
-                0 11 * * * DISPLAY=:1 /usr/bin/node /path/to/Proxy-Bot/dist/index.js >> /home/hostUsername/cronLog.log 2>&1 //Don't worry the later part is just logging our any errors
+            0 11 * * * DISPLAY=:1 /usr/bin/node /path/to/Proxy-Bot/dist/index.js >> /home/hostUsername/cronLog.log 2>&1 //Don't worry the later part is just logging our any errors
             Change the cronjobs according to your own time table!!
-            Tip -> Suppose if your class is at 11:00AM , then always schedule your cronjob of 11:07 or 11:10 , don't worry the script will work anyways , and slight modificaton by professrors will be adjusted accordinglly.
+        Tip -> Suppose if your class is at 11:00AM , then always schedule your cronjob of 11:07 or 11:10 , don't worry the script will work anyways , and slight modificaton by professrors will be adjusted accordinglly.
             07 11,14,15 * * 1-6 DISPLAY=:1 /usr/bin/node /path/to/Proxy-Bot/dist/index.js >> /home/hostUsername/cronLog.log 2>&1 
-                Just add the above cron job : this will run your script at 11AM,2PM,3PM at 07 minutes of each hour from 1-6 i.e mon to friday , disclamier -> learn or most probably master crontab and how to use it in order to get the full out of it.
+            Just add the above cron job : this will run your script at 11AM,2PM,3PM at 07 minutes of each hour from 1-6 i.e mon to friday , disclamier -> learn or most probably master crontab and how to use it in order to get the full out of it.
 
 ---
 
