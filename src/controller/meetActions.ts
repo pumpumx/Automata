@@ -8,7 +8,7 @@ export class meetActions { //One thing i need to do is , in my class time is som
     meetTime: (string | null)
 
     constructor(meetings: (string[] | null)) {
-        if(meetings == null){
+        if (meetings == null) {
             process.exit(1);
         }
         this.meetings = meetings;
@@ -35,8 +35,8 @@ export class meetActions { //One thing i need to do is , in my class time is som
 
     timeSynchronizer(time: number): string { //It will convert the time according to the 24 hrs format
         console.log("time at time Synchronizer: ", time)
-        if (time >= 0 && time < 10) {
-            console.log("Time is being changed" ,time + 12);
+        if (time >= 1 && time < 10) {
+            console.log("Time is being changed", time + 12);
             return (time + 12).toString();
         }
         return time.toString()//Damn pretty easy , i dont think i even need a function but its fine , it just looks cool enough
@@ -55,42 +55,53 @@ export class meetActions { //One thing i need to do is , in my class time is som
             }
             console.log("meetTime: ", this.meetTime);
         }
-        if (this.meetTime) return true;
-        return false;
+        if (this.meetTime == undefined){
+            console.log("No meet Available to schedule");
+            execSync("sleep 10");
+            process.exit(1);
+        }
+        if(parseInt(this.meetTime)  - currTime >= 1){
+            return false
+        }
+        return true;
     }
 
     async attendClass(myClassPage: Page) {
+        try {
 
-        const divAttr = `${this.fullTime}`;
+            const divAttr = `${this.fullTime}`;
 
-        console.log("div attr", divAttr)
+            console.log("div attr", divAttr)
 
+            await myClassPage.waitForSelector(`div.fc-time[${divAttr}]`, { timeout: 200000 })
+            await myClassPage.locator(`div.fc-time[${divAttr}]`).click();
 
-        await myClassPage.waitForSelector(`div.fc-time[${divAttr}]`, { timeout: 2000 })
-        await myClassPage.locator(`div.fc-time[${divAttr}]`).click();
+            console.log("Redirected to class page successfully , url: ", myClassPage.url())
+            //We will attend the class according the status field!! 
+            await myClassPage.waitForSelector('#meetingStatusPlaceholder')
+            const meetStatus = await myClassPage.$eval('#meetingStatusPlaceholder', el => el.textContent?.trim()); //Dang the bug's fixed ! 
+            console.log("meet Status" , meetStatus)
+            
+            if (meetStatus == "Not started yet") {
+                console.log("Meeting is yet to be started");
+                execSync("sleep 10")
+                process.exit(0);
+            }
+            else if (meetStatus == "Started") { //This is the part where the meeting would be started , need to do it tomorrow asap!! also need to fix the time thing .
+                await myClassPage.waitForSelector('a[role="button"]');
+                await myClassPage.locator('a[role="button"]').click()
 
-        console.log("Redirected to class page successfully , url: ", myClassPage.url())
-        //We will attend the class according the status field!! 
-        await myClassPage.waitForSelector('#meetingStatusPlaceholder')
-        const meetStatus = await myClassPage.$eval('#meetingStatusPlaceholder', el => el.textContent?.trim());
-
-        if (meetStatus == "Not started yet") {
-            console.log("Meeting is yet to be started");
-            execSync("sleep 10")
-            process.exit(0);
-        }
-        else if (meetStatus == "Started") { //This is the part where the meeting would be started , need to do it tomorrow asap!! also need to fix the time thing .
-            await myClassPage.waitForSelector('a[role="button"]');
-            await myClassPage.locator('a[role="button"]').click()
-
-            // await myClassPage.waitForSelector('button[aria-label="Microphone"]', { timeout: 10000000 }) //Timeout has been increased as it takes time to load the meet 
-            const buttonVal =  await myClassPage.$$eval(`button` , el => el.map((textContent)=>textContent.innerText))
-            console.log("Button Val" , buttonVal);
-            console.log("Meet Joined Successfully")
-        }
-        else {
-            console.log("Your meet has ended ");
-            process.exit(0);
+                // await myClassPage.waitForSelector('button[aria-label="Microphone"]', { timeout: 10000000 }) //Timeout has been increased as it takes time to load the meet 
+                // const buttonVal = await myClassPage.$$eval(`button`, el => el.map((textContent) => textContent.innerText))
+                // console.log("Button Val", buttonVal);
+                console.log("Meet Joined Successfully")
+            }
+            else {
+                console.log("Your meet has ended ");
+                process.exit(0);
+            }
+        } catch (error) {
+            console.log("Some error occured while attending meet " , error)
         }
     }
 }

@@ -45,5 +45,9 @@ async function main() {
     if (meetTimeValid) {
         await meetObj.attendClass(loginObj.myclassPage);
     }
+    else {
+        console.log("Meeting either skipped or doe's not exits");
+        process.exit(1);
+    }
 }
 main();

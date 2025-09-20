@@ -52,7 +52,11 @@ const __dirname = dirname(__filename)
     console.log("validity of meet time: " , meetTimeValid)
     if(meetTimeValid){
         await meetObj.attendClass(loginObj.myclassPage)
-    }    
+    }
+    else{
+        console.log("Meeting either skipped or doe's not exits");
+        process.exit(1);
+    }
 }
 
 
